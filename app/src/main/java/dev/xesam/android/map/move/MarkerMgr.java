@@ -23,7 +23,7 @@ import dev.xesam.android.map.movedemo.Bus;
 public class MarkerMgr {
     private Map<String, MoveMarker3<Bus>> mMoveMarkers = new HashMap<>();
 
-    AMap mAMap;
+    protected AMap mAMap;
 
     public MarkerMgr(AMap map) {
         this.mAMap = map;
@@ -45,7 +45,7 @@ public class MarkerMgr {
         for (String id : added) {
             addedBuses.add(newBuses.get(id));
         }
-        onMarkerAdded(addedBuses);
+        onMarkersAdded(addedBuses);
 
         Set<String> update = new HashSet<>();
         update.addAll(now);
@@ -55,7 +55,7 @@ public class MarkerMgr {
         for (String id : update) {
             updatedBuses.add(newBuses.get(id));
         }
-        onMarkerUpdated(updatedBuses);
+        onMarkersUpdated(updatedBuses);
 
         Set<String> lost = new HashSet<>();
         lost.addAll(now);
@@ -65,64 +65,78 @@ public class MarkerMgr {
         for (String id : lost) {
             lostMarkers.add(mMoveMarkers.get(id));
         }
-        onMarkerLost(lostMarkers);
+        onMarkersLost(lostMarkers);
     }
 
     /**
      * 新增 marker
      */
-    protected void onMarkerAdded(List<Bus> buses) {
+    protected void onMarkersAdded(List<Bus> buses) {
         for (Bus bus : buses) {
-            LatLng latLng = new LatLng(bus.lat, bus.lng);
-            MarkerOptions options = new MarkerOptions()
-                    .title("移动1")
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.car))
-                    .snippet("详细信息")
-                    .anchor(0.5f, 0.5f)
-                    .position(latLng);
-            MoveMarker3<Bus> moveMarker3 = new MoveMarker3<>(mAMap.addMarker(options));
+            MoveMarker3<Bus> moveMarker3 = onMarkerAdded(bus);
             moveMarker3.setData(bus);
             mMoveMarkers.put(bus.id, moveMarker3);
         }
     }
 
+    protected MoveMarker3<Bus> onMarkerAdded(Bus bus) {
+        LatLng latLng = new LatLng(bus.lat, bus.lng);
+        MarkerOptions options = new MarkerOptions()
+                .title("移动1")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.car))
+                .snippet("详细信息")
+                .anchor(0.5f, 0.5f)
+                .position(latLng);
+        return new MoveMarker3<>(mAMap.addMarker(options));
+    }
+
     /**
      * 更新 marker
      */
-    protected void onMarkerUpdated(List<Bus> buses) {
+    protected void onMarkersUpdated(List<Bus> buses) {
         for (Bus bus : buses) {
-            LatLng latLng = new LatLng(bus.lat, bus.lng);
             MoveMarker3<Bus> moveMarker3 = mMoveMarkers.get(bus.id);
             moveMarker3.stopMove();
-            List<LatLng> points = new ArrayList<>();
-            points.add(latLng);
-            moveMarker3.setTotalDuration(1_000);
-            moveMarker3.setTargetPoints(points);
+            onMarkerUpdated(moveMarker3, bus);
             moveMarker3.startMove();
         }
+    }
+
+    protected void onMarkerUpdated(MoveMarker3<Bus> moveMarker3, Bus updated) {
+        List<LatLng> points = new ArrayList<>();
+        LatLng latLng = new LatLng(updated.lat, updated.lng);
+        points.add(latLng);
+        moveMarker3.setTotalDuration(1_000);
+        moveMarker3.setTargetPoints(points);
     }
 
     /**
      * 丢失 marker
      */
-    protected void onMarkerLost(List<MoveMarker3<Bus>> markers) {
+    protected void onMarkersLost(List<MoveMarker3<Bus>> markers) {
         for (final MoveMarker3<Bus> moveMarker3 : markers) {
+            moveMarker3.stopMove();
             mMoveMarkers.remove(moveMarker3.getData().id);
-            AlphaAnimation dismiss = new AlphaAnimation(1.0f, 0f);
-            dismiss.setDuration(500);
-            dismiss.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart() {
-
-                }
-
-                @Override
-                public void onAnimationEnd() {
-                    moveMarker3.getMarker().remove();
-                }
-            });
-            moveMarker3.getMarker().setAnimation(dismiss);
-            moveMarker3.getMarker().startAnimation();
+            onMarkerLost(moveMarker3);
         }
     }
+
+    protected void onMarkerLost(final MoveMarker3<Bus> moveMarker3) {
+        AlphaAnimation dismiss = new AlphaAnimation(1.0f, 0f);
+        dismiss.setDuration(500);
+        dismiss.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart() {
+
+            }
+
+            @Override
+            public void onAnimationEnd() {
+                moveMarker3.getMarker().remove();
+            }
+        });
+        moveMarker3.getMarker().setAnimation(dismiss);
+        moveMarker3.getMarker().startAnimation();
+    }
+
 }

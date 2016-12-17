@@ -8,6 +8,7 @@ import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dev.xesam.android.map.move.MarkerMgr;
@@ -36,18 +37,14 @@ public class MainDemo2Activity extends BaseMapActivity {
         super.onCreate(savedInstanceState);
         mMarkerMgr = new MarkerMgr(mAMap) {
             @Override
-            protected void onMarkerAdded(List<Bus> buses) {
-                super.onMarkerAdded(buses);
-            }
-
-            @Override
-            protected void onMarkerUpdated(List<Bus> buses) {
-                super.onMarkerUpdated(buses);
-            }
-
-            @Override
-            protected void onMarkerLost(List<MoveMarker3<Bus>> markers) {
-                super.onMarkerLost(markers);
+            protected void onMarkerUpdated(MoveMarker3<Bus> moveMarker3, Bus updated) {
+                List<LatLng> points = new ArrayList<>();
+                LatLng c = moveMarker3.getMarker().getPosition();
+                points.add(new LatLng((c.latitude + updated.lat) / 2, 116.2));
+                LatLng latLng = new LatLng(updated.lat, updated.lng);
+                points.add(latLng);
+                moveMarker3.setTotalDuration(5_000);
+                moveMarker3.setTargetPoints(points);
             }
         };
 
