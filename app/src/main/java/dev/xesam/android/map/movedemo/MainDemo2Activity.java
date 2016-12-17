@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 
 import java.util.List;
@@ -66,6 +67,7 @@ public class MainDemo2Activity extends BaseMapActivity {
         });
 
         mBusSource.start();
+        mMapCtrl.centerZoom(new LatLng(40.06, 116.09), 11.5f, false);
     }
 
     @Override

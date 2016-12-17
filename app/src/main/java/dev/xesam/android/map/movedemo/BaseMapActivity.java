@@ -28,6 +28,7 @@ public class BaseMapActivity extends AppCompatActivity {
         vMapView = (MapView) findViewById(R.id.map);
         vMapView.onCreate(savedInstanceState);// 必须要写
         mAMap = vMapView.getMap();
+        mMapCtrl = new MapCtrl(mAMap);
     }
 
     protected void onResume() {
