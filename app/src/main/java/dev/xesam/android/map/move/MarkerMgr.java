@@ -76,7 +76,7 @@ public class MarkerMgr {
             LatLng latLng = new LatLng(bus.lat, bus.lng);
             MarkerOptions options = new MarkerOptions()
                     .title("移动1")
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_car))
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.car))
                     .snippet("详细信息")
                     .anchor(0.5f, 0.5f)
                     .position(latLng);
