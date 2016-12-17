@@ -4,14 +4,28 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "dev.xesam.android.map.move"
+        applicationId "dev.xesam.android.mapkit.demo"
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        debug {
+            storeFile file("xesam-android-debug.jks")
+            storePassword "123456"
+            keyAlias "xesam"
+            keyPassword "123456"
+        }
+    }
     buildTypes {
+
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

@@ -1,4 +1,4 @@
-package dev.xesam.android.map.move;
+package dev.xesam.android.map.movedemo;
 
 import android.os.Handler;
 

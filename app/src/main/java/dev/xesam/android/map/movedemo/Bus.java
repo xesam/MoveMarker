@@ -1,4 +1,4 @@
-package dev.xesam.android.map.move;
+package dev.xesam.android.map.movedemo;
 
 /**
  * Created by xe on 16-12-13.
