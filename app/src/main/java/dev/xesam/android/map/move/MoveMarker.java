@@ -11,13 +11,14 @@ import java.util.List;
  * Created by xe on 16-12-13.
  */
 
-public class MoveMarker2 {
+public class MoveMarker<D> {
+    private D mData;
     private Marker vMarker;
 
     private MovePath mMovePath;
     private long mTotalDuration;
 
-    public MoveMarker2(Marker marker) {
+    public MoveMarker(Marker marker) {
         this.vMarker = marker;
     }
 
@@ -25,15 +26,25 @@ public class MoveMarker2 {
         return vMarker;
     }
 
+    public D getData() {
+        return mData;
+    }
+
+    public void setData(D d) {
+        mData = d;
+    }
+
     /**
-     * 设置运动路劲
+     * 设置目标点，不包括当前 Marker 所在点
      */
-    public void setPathPoints(List<LatLng> points) {
+    public void setTargetPoints(List<LatLng> points) {
         stopMove();
+        LatLng current = vMarker.getPosition();
+        points.add(0, current);
         mMovePath = new MovePath(points, mTotalDuration);
     }
 
-    private void moveSpan(final MovePath movePath, final int index) {
+    private void startMoveSpan(final MovePath movePath, final int index) {
         movePath.mRunningSpanIndex = index;
         final MoveSpan moveSpan = movePath.getSpan(index);
         if (moveSpan == null) {
@@ -48,7 +59,7 @@ public class MoveMarker2 {
 
             @Override
             public void onAnimationEnd() {
-                moveSpan(movePath, index + 1);
+                startMoveSpan(movePath, index + 1);
             }
         });
         animation.setDuration(moveSpan.duration);
@@ -74,14 +85,13 @@ public class MoveMarker2 {
      * 开始移动
      */
     public void startMove() {
-        moveSpan(mMovePath, 0);
+        startMoveSpan(mMovePath, 0);
     }
 
     /**
      * 停止移动
      */
     public void stopMove() {
-        //没有停止方法，变通一下
         Animation animation = new TranslateAnimation(vMarker.getPosition());
         animation.setDuration(5);
         vMarker.setAnimation(animation);

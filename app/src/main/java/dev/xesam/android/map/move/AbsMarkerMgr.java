@@ -14,7 +14,7 @@ import java.util.Set;
  */
 
 public abstract class AbsMarkerMgr<D> {
-    protected Map<String, MoveMarker3<D>> mMoveMarkers = new HashMap<>();
+    protected Map<String, MoveMarker<D>> mMoveMarkers = new HashMap<>();
 
     protected AMap mAMap;
 
@@ -56,7 +56,7 @@ public abstract class AbsMarkerMgr<D> {
         lost.addAll(current);
         lost.removeAll(newer);
 
-        List<MoveMarker3<D>> lostMarkers = new ArrayList<>();
+        List<MoveMarker<D>> lostMarkers = new ArrayList<>();
         for (String id : lost) {
             lostMarkers.add(mMoveMarkers.get(id));
         }
@@ -68,40 +68,40 @@ public abstract class AbsMarkerMgr<D> {
      */
     protected void onMarkersAdded(List<D> items) {
         for (D item : items) {
-            MoveMarker3<D> moveMarker3 = onMarkerAdded(item);
-            moveMarker3.setData(item);
-            mMoveMarkers.put(getKey(item), moveMarker3);
+            MoveMarker<D> moveMarker = onMarkerAdded(item);
+            moveMarker.setData(item);
+            mMoveMarkers.put(getKey(item), moveMarker);
         }
     }
 
-    protected abstract MoveMarker3<D> onMarkerAdded(D item);
+    protected abstract MoveMarker<D> onMarkerAdded(D item);
 
     /**
      * 更新 marker
      */
     protected void onMarkersUpdated(List<D> items) {
         for (D item : items) {
-            MoveMarker3<D> moveMarker3 = mMoveMarkers.get(getKey(item));
-            moveMarker3.stopMove();
-            onMarkerUpdated(moveMarker3, item);
-            moveMarker3.startMove();
+            MoveMarker<D> moveMarker = mMoveMarkers.get(getKey(item));
+            moveMarker.stopMove();
+            onMarkerUpdated(moveMarker, item);
+            moveMarker.startMove();
         }
     }
 
-    protected abstract void onMarkerUpdated(MoveMarker3<D> moveMarker3, D updated);
+    protected abstract void onMarkerUpdated(MoveMarker<D> moveMarker, D updated);
 
     /**
      * 丢失 marker
      */
-    protected void onMarkersLost(List<MoveMarker3<D>> markers) {
-        for (final MoveMarker3<D> moveMarker3 : markers) {
-            moveMarker3.stopMove();
-            D item = moveMarker3.getData();
+    protected void onMarkersLost(List<MoveMarker<D>> markers) {
+        for (final MoveMarker<D> moveMarker : markers) {
+            moveMarker.stopMove();
+            D item = moveMarker.getData();
             mMoveMarkers.remove(getKey(item));
-            onMarkerLost(moveMarker3);
+            onMarkerLost(moveMarker);
         }
     }
 
-    protected abstract void onMarkerLost(final MoveMarker3<D> moveMarker3);
+    protected abstract void onMarkerLost(final MoveMarker<D> moveMarker);
 
 }
