@@ -16,7 +16,6 @@ import java.util.List;
 public class MovePath {
     private List<MoveSpan> mMoveSpen;
     private final long mTotalDuration;
-    public int mRunningSpanIndex;
 
     public MovePath(List<LatLng> points, long duration) {
         mMoveSpen = new ArrayList<>();
@@ -64,12 +63,5 @@ public class MovePath {
             return null;
         }
         return mMoveSpen.get(index);
-    }
-
-    /**
-     * 当前运动到第几个Span
-     */
-    public MoveSpan getRunningSpan() {
-        return getSpan(mRunningSpanIndex);
     }
 }

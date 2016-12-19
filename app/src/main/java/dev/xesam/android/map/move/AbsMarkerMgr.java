@@ -84,6 +84,7 @@ public abstract class AbsMarkerMgr<D> {
             MoveMarker<D> moveMarker = mMoveMarkers.get(getKey(item));
             moveMarker.stopMove();
             onMarkerUpdated(moveMarker, item);
+            moveMarker.setData(item);
             moveMarker.startMove();
         }
     }

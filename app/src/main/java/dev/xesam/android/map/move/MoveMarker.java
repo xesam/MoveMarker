@@ -16,6 +16,8 @@ public class MoveMarker<D> {
     private Marker vMarker;
 
     private MovePath mMovePath;
+    private static final int SPAN_NOT_START = 0;
+    private int mRunningIndex = SPAN_NOT_START;
     private long mTotalDuration;
 
     public MoveMarker(Marker marker) {
@@ -42,14 +44,16 @@ public class MoveMarker<D> {
         LatLng current = vMarker.getPosition();
         points.add(0, current);
         mMovePath = new MovePath(points, mTotalDuration);
+        mRunningIndex = SPAN_NOT_START;
     }
 
     private void startMoveSpan(final MovePath movePath, final int index) {
-        movePath.mRunningSpanIndex = index;
         final MoveSpan moveSpan = movePath.getSpan(index);
         if (moveSpan == null) {
+            mRunningIndex = SPAN_NOT_START;
             return;
         }
+        mRunningIndex = index;
         Animation animation = new TranslateAnimation(moveSpan.end);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -75,10 +79,17 @@ public class MoveMarker<D> {
     }
 
     /**
+     * 获取当前运动的完整轨迹
+     */
+    public MovePath getRunningPath() {
+        return mMovePath;
+    }
+
+    /**
      * 当前运动到第几个Span
      */
-    public MoveSpan getRunningSpan() {
-        return mMovePath.getRunningSpan();
+    public int getRunningIndex() {
+        return mRunningIndex;
     }
 
     /**
