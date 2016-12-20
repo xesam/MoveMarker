@@ -13,12 +13,12 @@ import java.util.Set;
  * Created by xe on 16-12-13.
  */
 
-public abstract class AbsMarkerMgr<D> {
+public abstract class AbsMoveMgr<D> {
     protected Map<String, MoveMarker<D>> mMoveMarkers = new HashMap<>();
 
     protected AMap mAMap;
 
-    public AbsMarkerMgr(AMap map) {
+    public AbsMoveMgr(AMap map) {
         this.mAMap = map;
     }
 

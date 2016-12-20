@@ -9,8 +9,9 @@ import com.amap.api.maps.model.animation.Animation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-import dev.xesam.android.map.move.AbsMarkerMgr;
+import dev.xesam.android.map.move.AbsMoveMgr;
 import dev.xesam.android.map.move.MoveMarker;
 import dev.xesam.android.map.move.R;
 
@@ -18,8 +19,8 @@ import dev.xesam.android.map.move.R;
  * Created by xe on 16-12-13.
  */
 
-public class MarkerMgr extends AbsMarkerMgr<Bus> {
-    public MarkerMgr(AMap map) {
+public class BusMoveMgr extends AbsMoveMgr<Bus> {
+    public BusMoveMgr(AMap map) {
         super(map);
     }
 
@@ -44,7 +45,7 @@ public class MarkerMgr extends AbsMarkerMgr<Bus> {
     protected void onMarkerUpdated(MoveMarker<Bus> moveMarker, Bus updated) {
         List<LatLng> points = new ArrayList<>();
         LatLng c = moveMarker.getMarker().getPosition();
-        points.add(new LatLng((c.latitude + updated.lat) / 2, 116.2));
+        points.add(new LatLng((c.latitude + updated.lat) / 2, updated.lng + new Random().nextDouble()));
         LatLng latLng = new LatLng(updated.lat, updated.lng);
         points.add(latLng);
         moveMarker.setTotalDuration(5_000);

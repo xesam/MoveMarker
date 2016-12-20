@@ -22,7 +22,7 @@ public class MainDemo2Activity extends BaseMapActivity {
         }
     };
 
-    private MarkerMgr mMarkerMgr;
+    private BusMoveMgr mMarkerMgr;
 
     @Override
     protected int getLayoutId() {
@@ -32,7 +32,7 @@ public class MainDemo2Activity extends BaseMapActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mMarkerMgr = new MarkerMgr(mAMap);
+        mMarkerMgr = new BusMoveMgr(mAMap);
 
         mAMap.setInfoWindowAdapter(new AMap.InfoWindowAdapter() {
             @Override

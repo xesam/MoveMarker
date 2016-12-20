@@ -13,7 +13,7 @@ public abstract class BusSource {
 
     private List<Bus> getBuses1() {
         final List<Bus> buses = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             Bus bus = new Bus();
             if (i % 2 == 0) {
                 bus.id = i + "";
@@ -31,7 +31,7 @@ public abstract class BusSource {
 
     private List<Bus> getBuses2() {
         final List<Bus> buses = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 3; i++) {
             Bus bus = new Bus();
             if (i % 2 == 0) {
                 bus.id = i + "";
@@ -49,7 +49,7 @@ public abstract class BusSource {
 
     private List<Bus> getBuses3() {
         final List<Bus> buses = new ArrayList<>();
-        for (int i = 2; i < 5; i++) {
+        for (int i = 1; i < 2; i++) {
             Bus bus = new Bus();
             if (i % 2 == 0) {
                 bus.id = i + "";
