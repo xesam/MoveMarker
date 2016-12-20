@@ -50,7 +50,7 @@ public class MainDemo2Activity extends BaseMapActivity {
         });
 
         mBusSource.start();
-        mMapCtrl.centerZoom(new LatLng(40.06, 116.09), 11.5f, false);
+        mMapCtrl.centerZoom(new LatLng(40.06, 116.09), 8.5f, false);
     }
 
     @Override

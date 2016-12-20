@@ -38,7 +38,7 @@ public class BusMoveMgr extends AbsMoveMgr<Bus> {
                 .snippet("详细信息")
                 .anchor(0.5f, 0.5f)
                 .position(latLng);
-        return new MoveMarker<>(mAMap.addMarker(options));
+        return new MoveMarker<>(mAMap, mAMap.addMarker(options));
     }
 
     @Override

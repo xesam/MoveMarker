@@ -1,5 +1,6 @@
 package dev.xesam.android.map.move;
 
+import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.animation.Animation;
@@ -13,14 +14,17 @@ import java.util.List;
 
 public class MoveMarker<D> {
     private D mData;
-    private Marker vMarker;
+
+    private final AMap mAMap;
+    private final Marker vMarker;
 
     private MovePath mMovePath;
     private static final int SPAN_NOT_START = 0;
     private int mRunningIndex = SPAN_NOT_START;
     private long mTotalDuration;
 
-    public MoveMarker(Marker marker) {
+    public MoveMarker(AMap map, Marker marker) {
+        this.mAMap = map;
         this.vMarker = marker;
     }
 
@@ -58,7 +62,7 @@ public class MoveMarker<D> {
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart() {
-                vMarker.setRotateAngle(360f - moveSpan.rotate);
+                vMarker.setRotateAngle(360f - moveSpan.rotate + mAMap.getCameraPosition().bearing);
             }
 
             @Override
