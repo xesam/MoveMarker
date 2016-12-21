@@ -22,6 +22,7 @@ public class MoveMarker<D> {
     private static final int SPAN_NOT_START = 0;
     private int mRunningIndex = SPAN_NOT_START;
     private long mTotalDuration;
+    private boolean mRunning = false;
 
     public MoveMarker(AMap map, Marker marker) {
         this.mAMap = map;
@@ -55,6 +56,7 @@ public class MoveMarker<D> {
         final MoveSpan moveSpan = movePath.getSpan(index);
         if (moveSpan == null) {
             mRunningIndex = SPAN_NOT_START;
+            mRunning = false;
             return;
         }
         mRunningIndex = index;
@@ -100,6 +102,10 @@ public class MoveMarker<D> {
      * 开始移动
      */
     public void startMove() {
+        if (mRunning) {
+            return;
+        }
+        mRunning = true;
         startMoveSpan(mMovePath, 0);
     }
 
@@ -107,6 +113,10 @@ public class MoveMarker<D> {
      * 停止移动
      */
     public void stopMove() {
+        if (!mRunning) {
+            return;
+        }
+        mRunning = false;
         Animation animation = new TranslateAnimation(vMarker.getPosition());
         animation.setDuration(5);
         vMarker.setAnimation(animation);
