@@ -40,7 +40,6 @@ public abstract class AbsMoveMgr<D> {
         for (String id : added) {
             addedItems.add(newItems.get(id));
         }
-        onMarkersAdded(addedItems);
 
         Set<String> update = new HashSet<>();
         update.addAll(current);
@@ -50,7 +49,6 @@ public abstract class AbsMoveMgr<D> {
         for (String id : update) {
             updatedItems.add(newItems.get(id));
         }
-        onMarkersUpdated(updatedItems);
 
         Set<String> lost = new HashSet<>();
         lost.addAll(current);
@@ -60,6 +58,9 @@ public abstract class AbsMoveMgr<D> {
         for (String id : lost) {
             lostMarkers.add(mMoveMarkers.get(id));
         }
+
+        onMarkersAdded(addedItems);
+        onMarkersUpdated(updatedItems);
         onMarkersLost(lostMarkers);
     }
 
