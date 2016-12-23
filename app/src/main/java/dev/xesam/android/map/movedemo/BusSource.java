@@ -2,6 +2,8 @@ package dev.xesam.android.map.movedemo;
 
 import android.os.Handler;
 
+import com.amap.api.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,16 +24,16 @@ public abstract class BusSource {
     private List<Bus> getBuses1() {
         final List<Bus> buses = new ArrayList<>();
         buses.add(new Bus("1", 39, 115));
-        buses.add(new Bus("2", 39, 116));
+        buses.add(new Bus("2", 39.5, 117));
         buses.add(new Bus("3", 40, 116));
         return buses;
     }
 
     private List<Bus> getBuses2() {
         final List<Bus> buses = new ArrayList<>();
-        buses.add(new Bus("1", 39, 116));
+        buses.add(new Bus("1", 39.5, 117));
         buses.add(new Bus("2", 40, 116));
-        buses.add(new Bus("3", 40, 115));
+        buses.add(new Bus("3", 39, 115));
         buses.add(new Bus("4", 39, 115));
         return buses;
     }

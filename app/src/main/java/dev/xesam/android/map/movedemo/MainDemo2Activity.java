@@ -53,9 +53,8 @@ public class MainDemo2Activity extends BaseMapActivity {
 
         PolylineOptions polylineOptions = new PolylineOptions()
                 .add(new LatLng(39, 115))
-                .add(new LatLng(39, 116))
+                .add(new LatLng(39.5, 117))
                 .add(new LatLng(40, 116))
-                .add(new LatLng(40, 115))
                 .add(new LatLng(39, 115))
                 .width(10)
                 .color(Color.RED);
