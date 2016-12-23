@@ -45,7 +45,8 @@ public class BusMoveMgr extends AbsMoveMgr<Bus> {
     protected void onMarkerUpdated(MoveMarker<Bus> moveMarker, Bus updated) {
         List<LatLng> points = new ArrayList<>();
         LatLng c = moveMarker.getMarker().getPosition();
-        points.add(new LatLng((c.latitude + updated.lat) / 2, updated.lng + new Random().nextDouble()));
+        points.add(new LatLng((c.latitude + updated.lat) / 2, (c.longitude + updated.lng) / 2));
+//        points.add(new LatLng((c.latitude + updated.lat) / 2, updated.lng + new Random().nextDouble()));
         LatLng latLng = new LatLng(updated.lat, updated.lng);
         points.add(latLng);
         moveMarker.setTotalDuration(5_000);

@@ -1,5 +1,6 @@
 package dev.xesam.android.map.movedemo;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -7,6 +8,7 @@ import android.widget.TextView;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
+import com.amap.api.maps.model.PolylineOptions;
 
 import java.util.List;
 
@@ -49,8 +51,19 @@ public class MainDemo2Activity extends BaseMapActivity {
             }
         });
 
-        mBusSource.start();
         mMapCtrl.centerZoom(new LatLng(40.06, 116.09), 8.5f, false);
+
+        PolylineOptions polylineOptions = new PolylineOptions()
+                .add(new LatLng(39, 115))
+                .add(new LatLng(39, 116))
+                .add(new LatLng(40, 116))
+                .add(new LatLng(40, 115))
+                .add(new LatLng(39, 115))
+                .width(10)
+                .color(Color.RED);
+        mAMap.addPolyline(polylineOptions);
+
+        mBusSource.start();
     }
 
     @Override

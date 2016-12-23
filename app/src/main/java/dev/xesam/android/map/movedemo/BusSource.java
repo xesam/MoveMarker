@@ -13,55 +13,18 @@ public abstract class BusSource {
 
     private List<Bus> getBuses1() {
         final List<Bus> buses = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            Bus bus = new Bus();
-            if (i % 2 == 0) {
-                bus.id = i + "";
-                bus.lat = 40;
-                bus.lng = 116 + i * 0.05;
-            } else {
-                bus.id = i + "";
-                bus.lat = 40 + i * 0.05;
-                bus.lng = 116;
-            }
-            buses.add(bus);
-        }
+        buses.add(new Bus("1", 39, 115));
+        buses.add(new Bus("2", 39, 116));
+        buses.add(new Bus("3", 40, 116));
         return buses;
     }
 
     private List<Bus> getBuses2() {
         final List<Bus> buses = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            Bus bus = new Bus();
-            if (i % 2 == 0) {
-                bus.id = i + "";
-                bus.lat = 40.01;
-                bus.lng = 116 + i * 0.05;
-            } else {
-                bus.id = i + "";
-                bus.lat = 40 + i * 0.05;
-                bus.lng = 116.01;
-            }
-            buses.add(bus);
-        }
-        return buses;
-    }
-
-    private List<Bus> getBuses3() {
-        final List<Bus> buses = new ArrayList<>();
-        for (int i = 1; i < 2; i++) {
-            Bus bus = new Bus();
-            if (i % 2 == 0) {
-                bus.id = i + "";
-                bus.lat = 39.99;
-                bus.lng = 116 + i * 0.05;
-            } else {
-                bus.id = i + "";
-                bus.lat = 40 + i * 0.05;
-                bus.lng = 115.99;
-            }
-            buses.add(bus);
-        }
+        buses.add(new Bus("1", 39, 116));
+        buses.add(new Bus("2", 40, 116));
+        buses.add(new Bus("3", 40, 115));
+        buses.add(new Bus("4", 39, 115));
         return buses;
     }
 
@@ -82,13 +45,11 @@ public abstract class BusSource {
                     case 1:
                         onBusesLoaded(getBuses2());
                         break;
-                    default:
-                        onBusesLoaded(getBuses3());
                 }
                 count++;
                 start();
             }
-        }, 2000);
+        }, 6_000);
     }
 
     public void stop() {

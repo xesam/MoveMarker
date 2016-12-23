@@ -9,6 +9,12 @@ public class Bus {
     public double lat;
     public double lng;
 
+    public Bus(String id, double lat, double lng) {
+        this.id = id;
+        this.lat = lat;
+        this.lng = lng;
+    }
+
     @Override
     public String toString() {
         return "Bus{" +
