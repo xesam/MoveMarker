@@ -1,5 +1,8 @@
 package dev.xesam.android.map.move;
 
+import android.os.Handler;
+import android.view.animation.LinearInterpolator;
+
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
@@ -60,7 +63,15 @@ public class MoveMarker<D> {
             return;
         }
         mRunningIndex = index;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startMoveSpan(movePath, index + 1);
+            }
+        }, moveSpan.duration);
+
         Animation animation = new TranslateAnimation(moveSpan.end);
+        animation.setInterpolator(new LinearInterpolator());
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart() {
@@ -69,7 +80,6 @@ public class MoveMarker<D> {
 
             @Override
             public void onAnimationEnd() {
-                startMoveSpan(movePath, index + 1);
             }
         });
         animation.setDuration(moveSpan.duration);

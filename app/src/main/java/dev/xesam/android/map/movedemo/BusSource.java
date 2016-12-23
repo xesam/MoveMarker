@@ -38,7 +38,7 @@ public abstract class BusSource {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                switch (count % 3) {
+                switch (count % 2) {
                     case 0:
                         onBusesLoaded(getBuses1());
                         break;
