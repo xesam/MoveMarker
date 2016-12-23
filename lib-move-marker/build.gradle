@@ -1,31 +1,19 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
+
     defaultConfig {
-        applicationId "dev.xesam.android.mapkit.demo"
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-    signingConfigs {
-        debug {
-            storeFile file("xesam-android-debug.jks")
-            storePassword "123456"
-            keyAlias "xesam"
-            keyPassword "123456"
-        }
+
     }
     buildTypes {
-
-        debug {
-            minifyEnabled false
-            signingConfig signingConfigs.debug
-        }
-
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -40,5 +28,5 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.1.0'
     testCompile 'junit:junit:4.12'
-    compile project(':lib-move-marker')
+    provided files('provided/Android_Map3D_SDK_V4.1.3_20161208.jar')
 }

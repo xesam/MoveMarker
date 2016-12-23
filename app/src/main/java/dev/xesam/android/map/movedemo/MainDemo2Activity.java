@@ -12,7 +12,7 @@ import com.amap.api.maps.model.PolylineOptions;
 
 import java.util.List;
 
-import dev.xesam.android.map.move.R;
+import dev.xesam.android.map.movedemo.R;
 
 public class MainDemo2Activity extends BaseMapActivity {
 

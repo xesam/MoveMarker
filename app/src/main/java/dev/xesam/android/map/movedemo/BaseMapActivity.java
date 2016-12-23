@@ -6,8 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
 
-import dev.xesam.android.map.move.R;
-
 /**
  * Created by xe on 16-11-18.
  */
