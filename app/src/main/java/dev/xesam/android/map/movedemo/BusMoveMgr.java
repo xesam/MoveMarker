@@ -9,6 +9,7 @@ import com.amap.api.maps.model.animation.Animation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import dev.xesam.android.map.move.AbsMoveMgr;
 import dev.xesam.android.map.move.MoveMarker;
@@ -44,7 +45,7 @@ public class BusMoveMgr extends AbsMoveMgr<Bus> {
     protected void onMarkerUpdated(MoveMarker<Bus> moveMarker, Bus updated) {
         List<LatLng> points = new ArrayList<>();
         LatLng c = moveMarker.getMarker().getPosition();
-//        points.add(new LatLng((c.latitude + updated.lat) / 2, (c.longitude + updated.lng) / 2));
+        points.add(new LatLng((c.latitude + updated.lat) / 2, (c.longitude + updated.lng) / 2));
         LatLng latLng = new LatLng(updated.lat, updated.lng);
         points.add(latLng);
         moveMarker.setTotalDuration(5_000);
@@ -68,6 +69,12 @@ public class BusMoveMgr extends AbsMoveMgr<Bus> {
         });
         moveMarker.getMarker().setAnimation(dismiss);
         moveMarker.getMarker().startAnimation();
+    }
+
+    public void stop() {
+        for (Map.Entry<String, MoveMarker<Bus>> entry : mMoveMarkers.entrySet()) {
+            entry.getValue().stopMove();
+        }
     }
 
 }

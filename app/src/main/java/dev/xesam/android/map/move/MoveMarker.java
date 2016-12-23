@@ -1,6 +1,8 @@
 package dev.xesam.android.map.move;
 
+import android.animation.Animator;
 import android.animation.ValueAnimator;
+import android.view.animation.LinearInterpolator;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.LatLng;
@@ -75,6 +77,7 @@ public class MoveMarker<D> {
 
         if (latDelta != 0) {
             animator = ValueAnimator.ofFloat((float) start.latitude, (float) to.latitude);
+            animator.setInterpolator(new LinearInterpolator());
             animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
@@ -84,11 +87,36 @@ public class MoveMarker<D> {
                     vMarker.setPosition(newPos);
                 }
             });
+            animator.addListener(new Animator.AnimatorListener() {
+                private boolean mCancel = false;
+
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    vMarker.setRotateAngle(360f - moveSpan.rotate + mAMap.getCameraPosition().bearing);
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    if (!mCancel) {
+                        startMoveSpan(movePath, index + 1);
+                    }
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+                    mCancel = true;
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
             animator.setDuration(moveSpan.duration);
-            vMarker.setRotateAngle(360f - moveSpan.rotate + mAMap.getCameraPosition().bearing);
             animator.start();
         } else if (lngDelta != 0) {
             animator = ValueAnimator.ofFloat((float) start.longitude, (float) to.longitude);
+            animator.setInterpolator(new LinearInterpolator());
             animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
@@ -98,8 +126,32 @@ public class MoveMarker<D> {
                     vMarker.setPosition(newPos);
                 }
             });
+            animator.addListener(new Animator.AnimatorListener() {
+                private boolean mCancel = false;
+
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    vMarker.setRotateAngle(360f - moveSpan.rotate + mAMap.getCameraPosition().bearing);
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    if (!mCancel) {
+                        startMoveSpan(movePath, index + 1);
+                    }
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+                    mCancel = true;
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
             animator.setDuration(moveSpan.duration);
-            vMarker.setRotateAngle(360f - moveSpan.rotate + mAMap.getCameraPosition().bearing);
             animator.start();
         }
     }

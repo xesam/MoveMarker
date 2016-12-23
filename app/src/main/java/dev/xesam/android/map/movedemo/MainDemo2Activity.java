@@ -68,6 +68,13 @@ public class MainDemo2Activity extends BaseMapActivity {
                 mBusSource.start();
             }
         });
+
+        findViewById(R.id.action_stop).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMarkerMgr.stop();
+            }
+        });
     }
 
     @Override
