@@ -53,7 +53,9 @@ public abstract class BusSource {
     }
 
     public void stop() {
-        mHandler.removeCallbacksAndMessages(null);
+        if (mHandler != null) {
+            mHandler.removeCallbacksAndMessages(null);
+        }
     }
 
     abstract void onBusesLoaded(List<Bus> buses);
