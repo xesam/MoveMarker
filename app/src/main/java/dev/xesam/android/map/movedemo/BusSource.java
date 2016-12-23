@@ -11,6 +11,14 @@ import java.util.List;
 
 public abstract class BusSource {
 
+
+    private int count = 0;
+    private Handler mHandler;
+
+    public BusSource() {
+        mHandler = new Handler();
+    }
+
     private List<Bus> getBuses1() {
         final List<Bus> buses = new ArrayList<>();
         buses.add(new Bus("1", 39, 115));
@@ -28,28 +36,31 @@ public abstract class BusSource {
         return buses;
     }
 
-    private int count = 0;
-    private Handler mHandler;
-
-    public void start() {
-        if (mHandler == null) {
-            mHandler = new Handler();
+    private void load() {
+        switch (count % 2) {
+            case 0:
+                onBusesLoaded(getBuses1());
+                break;
+            case 1:
+                onBusesLoaded(getBuses2());
+                break;
         }
+        count++;
+    }
+
+    private void start0() {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                switch (count % 2) {
-                    case 0:
-                        onBusesLoaded(getBuses1());
-                        break;
-                    case 1:
-                        onBusesLoaded(getBuses2());
-                        break;
-                }
-                count++;
-                start();
+                load();
+                start0();
             }
         }, 6_000);
+    }
+
+    public void start() {
+        load();
+        start0();
     }
 
     public void stop() {
