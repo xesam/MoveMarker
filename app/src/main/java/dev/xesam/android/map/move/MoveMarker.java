@@ -65,95 +65,45 @@ public class MoveMarker<D> {
         }
         mRunningIndex = index;
 
-        final LatLng start = vMarker.getPosition();
-        final LatLng to = moveSpan.end;
-
-        final float latDelta = (float) (to.latitude - start.latitude);
-        final float lngDelta = (float) (to.longitude - start.longitude);
-
         if (animator != null) {
             animator.cancel();
         }
+        animator = ValueAnimator.ofObject(new MoveEvaluator(), vMarker.getPosition(), moveSpan.end);
+        animator.setInterpolator(new LinearInterpolator());
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                LatLng newPos = (LatLng) animation.getAnimatedValue();
+                vMarker.setPosition(newPos);
+            }
+        });
+        animator.addListener(new Animator.AnimatorListener() {
+            private boolean mCancel = false;
 
-        if (latDelta != 0) {
-            animator = ValueAnimator.ofFloat((float) start.latitude, (float) to.latitude);
-            animator.setInterpolator(new LinearInterpolator());
-            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    float lat = (float) animation.getAnimatedValue();
-                    float lng = (float) (start.longitude + lngDelta * (lat - start.latitude) / latDelta);
-                    LatLng newPos = new LatLng(lat, lng);
-                    vMarker.setPosition(newPos);
+            @Override
+            public void onAnimationStart(Animator animation) {
+                vMarker.setRotateAngle(360f - moveSpan.rotate + mAMap.getCameraPosition().bearing);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (!mCancel) {
+                    startMoveSpan(movePath, index + 1);
                 }
-            });
-            animator.addListener(new Animator.AnimatorListener() {
-                private boolean mCancel = false;
+            }
 
-                @Override
-                public void onAnimationStart(Animator animation) {
-                    vMarker.setRotateAngle(360f - moveSpan.rotate + mAMap.getCameraPosition().bearing);
-                }
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                mCancel = true;
+            }
 
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    if (!mCancel) {
-                        startMoveSpan(movePath, index + 1);
-                    }
-                }
+            @Override
+            public void onAnimationRepeat(Animator animation) {
 
-                @Override
-                public void onAnimationCancel(Animator animation) {
-                    mCancel = true;
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            });
-            animator.setDuration(moveSpan.duration);
-            animator.start();
-        } else if (lngDelta != 0) {
-            animator = ValueAnimator.ofFloat((float) start.longitude, (float) to.longitude);
-            animator.setInterpolator(new LinearInterpolator());
-            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    float lng = (float) animation.getAnimatedValue();
-                    float lat = (float) (start.latitude + latDelta * (lng - start.longitude) / lngDelta);
-                    LatLng newPos = new LatLng(lat, lng);
-                    vMarker.setPosition(newPos);
-                }
-            });
-            animator.addListener(new Animator.AnimatorListener() {
-                private boolean mCancel = false;
-
-                @Override
-                public void onAnimationStart(Animator animation) {
-                    vMarker.setRotateAngle(360f - moveSpan.rotate + mAMap.getCameraPosition().bearing);
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    if (!mCancel) {
-                        startMoveSpan(movePath, index + 1);
-                    }
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-                    mCancel = true;
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            });
-            animator.setDuration(moveSpan.duration);
-            animator.start();
-        }
+            }
+        });
+        animator.setDuration(moveSpan.duration);
+        animator.start();
     }
 
     /**
