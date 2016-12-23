@@ -1,13 +1,10 @@
 package dev.xesam.android.map.move;
 
-import android.os.Handler;
-import android.view.animation.LinearInterpolator;
+import android.animation.ValueAnimator;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
-import com.amap.api.maps.model.animation.Animation;
-import com.amap.api.maps.model.animation.TranslateAnimation;
 
 import java.util.List;
 
@@ -55,6 +52,8 @@ public class MoveMarker<D> {
         mRunningIndex = SPAN_NOT_START;
     }
 
+    private ValueAnimator animator;
+
     private void startMoveSpan(final MovePath movePath, final int index) {
         final MoveSpan moveSpan = movePath.getSpan(index);
         if (moveSpan == null) {
@@ -63,28 +62,46 @@ public class MoveMarker<D> {
             return;
         }
         mRunningIndex = index;
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startMoveSpan(movePath, index + 1);
-            }
-        }, moveSpan.duration);
 
-        Animation animation = new TranslateAnimation(moveSpan.end);
-        animation.setInterpolator(new LinearInterpolator());
-        animation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart() {
-                vMarker.setRotateAngle(360f - moveSpan.rotate + mAMap.getCameraPosition().bearing);
-            }
+        final LatLng start = vMarker.getPosition();
+        final LatLng to = moveSpan.end;
 
-            @Override
-            public void onAnimationEnd() {
-            }
-        });
-        animation.setDuration(moveSpan.duration);
-        vMarker.setAnimation(animation);
-        vMarker.startAnimation();
+        final float latDelta = (float) (to.latitude - start.latitude);
+        final float lngDelta = (float) (to.longitude - start.longitude);
+
+        if (animator != null) {
+            animator.cancel();
+        }
+
+        if (latDelta != 0) {
+            animator = ValueAnimator.ofFloat((float) start.latitude, (float) to.latitude);
+            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    float lat = (float) animation.getAnimatedValue();
+                    float lng = (float) (start.longitude + lngDelta * (lat - start.latitude) / latDelta);
+                    LatLng newPos = new LatLng(lat, lng);
+                    vMarker.setPosition(newPos);
+                }
+            });
+            animator.setDuration(moveSpan.duration);
+            vMarker.setRotateAngle(360f - moveSpan.rotate + mAMap.getCameraPosition().bearing);
+            animator.start();
+        } else if (lngDelta != 0) {
+            animator = ValueAnimator.ofFloat((float) start.longitude, (float) to.longitude);
+            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    float lng = (float) animation.getAnimatedValue();
+                    float lat = (float) (start.latitude + latDelta * (lng - start.longitude) / lngDelta);
+                    LatLng newPos = new LatLng(lat, lng);
+                    vMarker.setPosition(newPos);
+                }
+            });
+            animator.setDuration(moveSpan.duration);
+            vMarker.setRotateAngle(360f - moveSpan.rotate + mAMap.getCameraPosition().bearing);
+            animator.start();
+        }
     }
 
     /**
@@ -126,10 +143,9 @@ public class MoveMarker<D> {
         if (!mRunning) {
             return;
         }
+        if (animator != null) {
+            animator.cancel();
+        }
         mRunning = false;
-        Animation animation = new TranslateAnimation(vMarker.getPosition());
-        animation.setDuration(5);
-        vMarker.setAnimation(animation);
-        vMarker.startAnimation();
     }
 }
