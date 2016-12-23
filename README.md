@@ -18,7 +18,7 @@ public class BusMoveMgr extends AbsMoveMgr<Bus> {
 
     @Override
     protected MoveMarker<Bus> onMarkerAdded(Bus bus) {
-        //根据 bus 信息创建marker
+        //根据 bus 创建marker
         return new MoveMarker<>(mAMap, mAMap.addMarker(options));
     }
 
@@ -38,6 +38,7 @@ public class BusMoveMgr extends AbsMoveMgr<Bus> {
 ````
 
 ## 补充
+1. Marker Animation 如果带有 InfoWindow，InfoWindow 的移动会有延迟。（4.1.3 已修正）
 1. Marker Animation 的缺陷，不在视界内，并且没有设置 showInfoWindow() 的时候，Animation 就不会执行。
-2. 无法停止 Marker 的 Animation。
+1. 无法停止 Marker 的 Animation。
 
