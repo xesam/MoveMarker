@@ -38,6 +38,6 @@ public class BusMoveMgr extends AbsMoveMgr<Bus> {
 ````
 
 ## 补充
-1. 地图 Animation 的缺陷，不在视界内，并且没有设置 showInfoWindow() 的时候，Animation 就不会执行。
-1. 如果添加当前视界之外的 Marker，高德地图是不会执行动画的。如果不对这种情况进行修正，那么当视界外的点进入视界之内的时候，会触发动画的异常执行。
+1. Marker Animation 的缺陷，不在视界内，并且没有设置 showInfoWindow() 的时候，Animation 就不会执行。
+2. 无法停止 Marker 的 Animation。
 
