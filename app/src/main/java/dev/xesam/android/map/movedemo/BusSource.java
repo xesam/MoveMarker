@@ -2,8 +2,6 @@ package dev.xesam.android.map.movedemo;
 
 import android.os.Handler;
 
-import com.amap.api.maps.model.LatLng;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +55,7 @@ public abstract class BusSource {
                 load();
                 start0();
             }
-        }, 6_000);
+        }, 4_000);
     }
 
     public void start() {
