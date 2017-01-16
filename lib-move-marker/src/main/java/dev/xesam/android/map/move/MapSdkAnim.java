@@ -36,6 +36,7 @@ public class MapSdkAnim extends MoveAnim {
             @Override
             public void run() {
                 if (mOnMoveAnimListener != null) {
+                    vMarker.setPosition(mEnd);
                     mOnMoveAnimListener.onAnimEnd();
                 }
             }
