@@ -18,7 +18,7 @@ public class MainDemo2Activity extends BaseMapActivity {
 
         @Override
         void onBusesLoaded(List<Bus> buses) {
-            mMarkerMgr.update(buses);
+            mMarkerMgr.update(buses, true);
         }
     };
 

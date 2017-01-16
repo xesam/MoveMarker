@@ -24,7 +24,7 @@ public abstract class AbsMoveMgr<D> {
 
     protected abstract String getKey(D item);
 
-    public void update(List<D> items) {
+    public void update(List<D> items, boolean performAnimation) {
         Map<String, D> newItems = new HashMap<>();
         for (D item : items) {
             newItems.put(getKey(item), item);
@@ -59,51 +59,50 @@ public abstract class AbsMoveMgr<D> {
             lostMarkers.add(mMoveMarkers.get(id));
         }
 
-        onMarkersAdded(addedItems);
-        onMarkersUpdated(updatedItems);
-        onMarkersLost(lostMarkers);
+        onMarkersAdded(addedItems, performAnimation);
+        onMarkersUpdated(updatedItems, performAnimation);
+        onMarkersLost(lostMarkers, performAnimation);
     }
 
     /**
      * 新增 marker
      */
-    protected void onMarkersAdded(List<D> items) {
+    protected void onMarkersAdded(List<D> items, boolean performAnimation) {
         for (D item : items) {
-            MoveMarker<D> moveMarker = onMarkerAdded(item);
+            MoveMarker<D> moveMarker = onMarkerAdded(item, performAnimation);
             moveMarker.setData(item);
             mMoveMarkers.put(getKey(item), moveMarker);
         }
     }
 
-    protected abstract MoveMarker<D> onMarkerAdded(D item);
+    protected abstract MoveMarker<D> onMarkerAdded(D item, boolean performAnimation);
 
     /**
      * 更新 marker
      */
-    protected void onMarkersUpdated(List<D> items) {
+    protected void onMarkersUpdated(List<D> items, boolean performAnimation) {
         for (D item : items) {
             MoveMarker<D> moveMarker = mMoveMarkers.get(getKey(item));
             moveMarker.stopMove();
-            onMarkerUpdated(moveMarker, item);
             moveMarker.setData(item);
-            moveMarker.startMove();
+            onMarkerUpdated(moveMarker, item, performAnimation);
         }
     }
 
-    protected abstract void onMarkerUpdated(MoveMarker<D> moveMarker, D updated);
+    protected abstract void onMarkerUpdated(MoveMarker<D> moveMarker, D updated, boolean performAnimation);
 
     /**
      * 丢失 marker
      */
-    protected void onMarkersLost(List<MoveMarker<D>> markers) {
+    protected void onMarkersLost(List<MoveMarker<D>> markers, boolean performAnimation) {
         for (final MoveMarker<D> moveMarker : markers) {
             moveMarker.stopMove();
             D item = moveMarker.getData();
             mMoveMarkers.remove(getKey(item));
-            onMarkerLost(moveMarker);
+            onMarkerLost(moveMarker, performAnimation);
         }
     }
 
-    protected abstract void onMarkerLost(final MoveMarker<D> moveMarker);
+    protected abstract void onMarkerLost(final MoveMarker<D> moveMarker, boolean performAnimation);
 
 }

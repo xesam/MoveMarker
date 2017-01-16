@@ -29,7 +29,7 @@ public class BusMoveMgr extends AbsMoveMgr<Bus> {
     }
 
     @Override
-    protected MoveMarker<Bus> onMarkerAdded(Bus bus) {
+    protected MoveMarker<Bus> onMarkerAdded(Bus bus, boolean performAnimation) {
         LatLng latLng = new LatLng(bus.lat, bus.lng);
         MarkerOptions options = new MarkerOptions()
                 .title("移动1")
@@ -41,18 +41,23 @@ public class BusMoveMgr extends AbsMoveMgr<Bus> {
     }
 
     @Override
-    protected void onMarkerUpdated(MoveMarker<Bus> moveMarker, Bus updated) {
-        List<LatLng> points = new ArrayList<>();
-        LatLng c = moveMarker.getMarker().getPosition();
-        points.add(new LatLng((c.latitude + updated.lat) / 2, (c.longitude + updated.lng) / 2));
-        LatLng latLng = new LatLng(updated.lat, updated.lng);
-        points.add(latLng);
-        moveMarker.setTotalDuration(5_000);
-        moveMarker.setTargetPoints(points);
+    protected void onMarkerUpdated(MoveMarker<Bus> moveMarker, Bus updated, boolean performAnimation) {
+        LatLng endLatLng = new LatLng(updated.lat, updated.lng);
+        if (performAnimation) {
+            List<LatLng> points = new ArrayList<>();
+            LatLng c = moveMarker.getMarker().getPosition();
+            points.add(new LatLng((c.latitude + updated.lat) / 2, (c.longitude + updated.lng) / 2));
+            points.add(endLatLng);
+            moveMarker.setTotalDuration(5_000);
+            moveMarker.setMovePoints(points);
+            moveMarker.startMove();
+        } else {
+            moveMarker.directTo(endLatLng);
+        }
     }
 
     @Override
-    protected void onMarkerLost(final MoveMarker<Bus> moveMarker) {
+    protected void onMarkerLost(final MoveMarker<Bus> moveMarker, boolean performAnimation) {
         AlphaAnimation dismiss = new AlphaAnimation(1.0f, 0f);
         dismiss.setDuration(500);
         dismiss.setAnimationListener(new Animation.AnimationListener() {
