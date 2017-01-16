@@ -50,10 +50,11 @@ public class MainDemo2Activity extends BaseMapActivity {
         });
 
         PolylineOptions polylineOptions = new PolylineOptions()
-                .add(new LatLng(39, 115))
-                .add(new LatLng(39.5, 117))
-                .add(new LatLng(40, 116))
-                .add(new LatLng(39, 115))
+                .add(new LatLng(39.912013, 116.401131))
+                .add(new LatLng(39.911613, 116.401689))
+                .add(new LatLng(39.91126, 116.401518))
+                .add(new LatLng(39.910803, 116.401185))
+                .add(new LatLng(39.912013, 116.401131))
                 .width(10)
                 .color(Color.RED);
         mAMap.addPolyline(polylineOptions);
@@ -61,7 +62,7 @@ public class MainDemo2Activity extends BaseMapActivity {
         mAMap.setOnMapLoadedListener(new AMap.OnMapLoadedListener() {
             @Override
             public void onMapLoaded() {
-                mMapCtrl.centerZoom(new LatLng(40.06, 116.09), 8.5f, false);
+                mMapCtrl.centerZoom(new LatLng(39.911613, 116.401689), 18f, false);
                 mBusSource.start();
             }
         });

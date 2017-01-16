@@ -21,18 +21,18 @@ public abstract class BusSource {
 
     private List<Bus> getBuses1() {
         final List<Bus> buses = new ArrayList<>();
-        buses.add(new Bus("1", 39, 115));
-        buses.add(new Bus("2", 39.5, 117));
-        buses.add(new Bus("3", 40, 116));
+        buses.add(new Bus("1", 39.912013, 116.401131));
+        buses.add(new Bus("2", 39.911613, 116.401689));
+        buses.add(new Bus("3", 39.91126, 116.401518));
         return buses;
     }
 
     private List<Bus> getBuses2() {
         final List<Bus> buses = new ArrayList<>();
-        buses.add(new Bus("1", 39.5, 117));
-        buses.add(new Bus("2", 40, 116));
-        buses.add(new Bus("3", 39, 115));
-        buses.add(new Bus("4", 39, 115));
+        buses.add(new Bus("1", 39.911613, 116.401689));
+        buses.add(new Bus("2", 39.91126, 116.401518));
+        buses.add(new Bus("3", 39.910803, 116.401185));
+        buses.add(new Bus("4", 39.910803, 116.401185));
         return buses;
     }
 
