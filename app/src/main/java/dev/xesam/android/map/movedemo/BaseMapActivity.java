@@ -10,7 +10,7 @@ import com.amap.api.maps.MapView;
  * Created by xe on 16-11-18.
  */
 
-public class BaseMapActivity extends AppCompatActivity {
+public abstract class BaseMapActivity extends AppCompatActivity {
     protected MapView vMapView;
     protected AMap mAMap;
     protected MapCtrl mMapCtrl;

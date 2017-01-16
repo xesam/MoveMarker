@@ -55,7 +55,7 @@ public abstract class BusSource {
                 load();
                 start0();
             }
-        }, 4_000);
+        }, 5_000);
     }
 
     public void start() {

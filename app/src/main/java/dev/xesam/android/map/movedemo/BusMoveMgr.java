@@ -13,7 +13,6 @@ import java.util.Map;
 
 import dev.xesam.android.map.move.AbsMoveMgr;
 import dev.xesam.android.map.move.MoveMarker;
-import dev.xesam.android.map.movedemo.R;
 
 /**
  * Created by xe on 16-12-13.
