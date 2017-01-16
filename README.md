@@ -4,6 +4,43 @@
 
 ## 使用
 
+第一步，添加依赖
+
+```gradle
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+
+```gradle
+	dependencies {
+        compile 'com.github.xesam:MoveMarker:0.1'
+	}
+```
+
+在具体的工程中可以使用单个 marker 或者管理单个 marker
+
+```java
+
+    MarkerOptions options = new MarkerOptions()
+        .title("移动1")
+        .icon(BitmapDescriptorFactory.fromResource(R.drawable.car))
+        .snippet("详细信息")
+        .anchor(0.5f, 0.5f)
+        .position(latLng);
+    MoveMarker<Bus> moveMarker = new MoveMarker<>(mAMap, mAMap.addMarker(options));
+    moveMarker.setData(data);
+    moveMarker.setTotalDuration(5_000);
+    moveMarker.setMovePoints(points);
+    moveMarker.startMove();
+
+```
+
+或者
+
 ```java
 
 public class BusMoveMgr extends AbsMoveMgr<Bus> {
@@ -46,12 +83,12 @@ public class BusMoveMgr extends AbsMoveMgr<Bus> {
 2. Marker Animation 的缺陷，不在视界内，并且没有设置 showInfoWindow() 的时候（此时 Marker 已经被移除了），Animation 就不会执行。
 3. 无法停止 Marker 的 Animation。
 
-暂用解决办法：
+不过高德方面回复会在新版本解决这些问题，暂用解决办法：
 
 1. sdk 4.1.3 已修正。
 2. 不要相信 AnimationListener#onAnimationEnd 回调，使用一个与动画时长相等的 delay message 来修正最终的位置。
 3. 想停止动画的时候，发起一个时间非常短（比如 10 ms）的动画来冲掉正在执行的动画，效果还可以。
 
 ## 再次补充
-高德地图的论坛太不给力了，如果不是公司要求，我宁愿用百度地图，都散了吧。
+高德地图的论坛太不给力了，有问题还是 Github 去提 issues 吧。
 
