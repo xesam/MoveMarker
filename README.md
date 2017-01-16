@@ -21,7 +21,11 @@
 	}
 ```
 
-在具体的工程中可以使用单个 marker 或者管理单个 marker
+第二步，添加相应的高德 SDk .jar 以及 .so 。
+
+第三步，代码调用
+
+在具体的工程中可以使用单个 marker 或者管理单个 marker。具体参见 [demo https://github.com/xesam/MoveMarker](https://github.com/xesam/MoveMarker)
 
 ```java
 
