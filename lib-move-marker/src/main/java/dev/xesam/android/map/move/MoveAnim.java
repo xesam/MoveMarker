@@ -6,11 +6,17 @@ package dev.xesam.android.map.move;
 
 public abstract class MoveAnim {
 
+    public static final int TYPE_MAP_SDK = 0;
+    public static final int TYPE_ANDROID_SDK = 1;
+
+    interface OnMoveAnimListener {
+
+        void onAnimStart();
+
+        void onAnimEnd();
+    }
+
     abstract void start(long duration);
 
     abstract void stop();
-
-    abstract void onAnimStart();
-
-    abstract void onAnimEnd();
 }

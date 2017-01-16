@@ -8,6 +8,7 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 
 /**
+ * Android SDk Animation
  * Created by xesamguo@gmail.com on 17-1-16.
  */
 
@@ -16,13 +17,15 @@ public class AndroidSdkAnim extends MoveAnim {
     private final Marker vMarker;
     private final LatLng mStart;
     private final LatLng mEnd;
+    private OnMoveAnimListener mOnMoveAnimListener;
 
     private ValueAnimator mAnimation;
 
-    public AndroidSdkAnim(Marker marker, LatLng start, LatLng end) {
+    public AndroidSdkAnim(Marker marker, LatLng start, LatLng end, OnMoveAnimListener onMoveAnimListener) {
         this.vMarker = marker;
         this.mStart = start;
         this.mEnd = end;
+        this.mOnMoveAnimListener = onMoveAnimListener;
     }
 
     @Override
@@ -44,14 +47,15 @@ public class AndroidSdkAnim extends MoveAnim {
 
             @Override
             public void onAnimationStart(Animator animation) {
-                onAnimStart();
+                if (mOnMoveAnimListener != null) {
+                    mOnMoveAnimListener.onAnimStart();
+                }
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                if (!mCancel) {
-                    onAnimEnd();
-                    ;
+                if (!mCancel && mOnMoveAnimListener != null) {
+                    mOnMoveAnimListener.onAnimEnd();
                 }
             }
 
@@ -74,15 +78,5 @@ public class AndroidSdkAnim extends MoveAnim {
         if (mAnimation != null) {
             mAnimation.cancel();
         }
-    }
-
-    @Override
-    void onAnimStart() {
-
-    }
-
-    @Override
-    void onAnimEnd() {
-
     }
 }

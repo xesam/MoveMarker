@@ -1,9 +1,5 @@
 package dev.xesam.android.map.move;
 
-import android.animation.Animator;
-import android.animation.ValueAnimator;
-import android.view.animation.LinearInterpolator;
-
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
@@ -20,6 +16,7 @@ public class MoveMarker<D> {
 
     private final AMap mAMap;
     private final Marker vMarker;
+    private final int mAnimType;
 
     private MovePath mMovePath;
     private static final int SPAN_NOT_START = 0;
@@ -28,8 +25,13 @@ public class MoveMarker<D> {
     private boolean mRunning = false;
 
     public MoveMarker(AMap map, Marker marker) {
+        this(map, marker, MoveAnim.TYPE_MAP_SDK);
+    }
+
+    public MoveMarker(AMap map, Marker marker, int animType) {
         this.mAMap = map;
         this.vMarker = marker;
+        this.mAnimType = animType;
     }
 
     public Marker getMarker() {
@@ -55,7 +57,15 @@ public class MoveMarker<D> {
         mRunningIndex = SPAN_NOT_START;
     }
 
-    private ValueAnimator animator;
+    private MoveAnim mMoveAnim;
+
+    private MoveAnim createMoveAnim(LatLng end, MoveAnim.OnMoveAnimListener onMoveAnimListener) {
+        if (mAnimType == MoveAnim.TYPE_ANDROID_SDK) {
+            return new AndroidSdkAnim(vMarker, vMarker.getPosition(), end, onMoveAnimListener);
+        } else {
+            return new MapSdkAnim(vMarker, vMarker.getPosition(), end, onMoveAnimListener);
+        }
+    }
 
     private void startMoveSpan(final MovePath movePath, final int index) {
         final MoveSpan moveSpan = movePath.getSpan(index);
@@ -65,46 +75,18 @@ public class MoveMarker<D> {
             return;
         }
         mRunningIndex = index;
-
-        if (animator != null) {
-            animator.cancel();
-        }
-        animator = ValueAnimator.ofObject(new MoveEvaluator(), vMarker.getPosition(), moveSpan.end);
-        animator.setInterpolator(new LinearInterpolator());
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        mMoveAnim = createMoveAnim(moveSpan.end, new MoveAnim.OnMoveAnimListener() {
             @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                LatLng newPos = (LatLng) animation.getAnimatedValue();
-                vMarker.setPosition(newPos);
-            }
-        });
-        animator.addListener(new Animator.AnimatorListener() {
-            private boolean mCancel = false;
-
-            @Override
-            public void onAnimationStart(Animator animation) {
+            public void onAnimStart() {
                 vMarker.setRotateAngle(360f - moveSpan.rotate + mAMap.getCameraPosition().bearing);
             }
 
             @Override
-            public void onAnimationEnd(Animator animation) {
-                if (!mCancel) {
-                    startMoveSpan(movePath, index + 1);
-                }
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-                mCancel = true;
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
+            public void onAnimEnd() {
+                startMoveSpan(movePath, index + 1);
             }
         });
-        animator.setDuration(moveSpan.duration);
-        animator.start();
+        mMoveAnim.start(moveSpan.duration);
     }
 
     /**
@@ -146,8 +128,8 @@ public class MoveMarker<D> {
         if (!mRunning) {
             return;
         }
-        if (animator != null) {
-            animator.cancel();
+        if (mMoveAnim != null) {
+            mMoveAnim.stop();
         }
         mRunning = false;
     }
