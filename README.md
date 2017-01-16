@@ -35,16 +35,22 @@ public class BusMoveMgr extends AbsMoveMgr<Bus> {
 
 }
 
-````
+```
 
 ## 补充
 
 高德 SDk 提供了基于 glAnimation 的 4 种动画： TranslateAnimation， AlphaAnimation， ScaleAnimation， RotateAnimation，
 不过这 4 种动画都有以下问题（当前是 4.1.3 版本）：
 
-1. Marker Animation 如果带有 InfoWindow，InfoWindow 的移动会有延迟。（4.1.3 已修正）
+1. Marker Animation 如果带有 InfoWindow，InfoWindow 的移动会有延迟。
 2. Marker Animation 的缺陷，不在视界内，并且没有设置 showInfoWindow() 的时候（此时 Marker 已经被移除了），Animation 就不会执行。
 3. 无法停止 Marker 的 Animation。
+
+暂用解决办法：
+
+1. sdk 4.1.3 已修正。
+2. 不要相信 AnimationListener#onAnimationEnd 回调，使用一个与动画时长相等的 delay message 来修正最终的位置。
+3. 想停止动画的时候，发起一个时间非常短（比如 10 ms）的动画来冲掉正在执行的动画，效果还可以。
 
 ## 再次补充
 高德地图的论坛太不给力了，如果不是公司要求，我宁愿用百度地图，都散了吧。
