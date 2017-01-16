@@ -43,7 +43,9 @@ public class BusMoveMgr extends AbsMoveMgr<Bus> {
 不过这 4 种动画都有以下问题（当前是 4.1.3 版本）：
 
 1. Marker Animation 如果带有 InfoWindow，InfoWindow 的移动会有延迟。（4.1.3 已修正）
-2. Marker Animation 的缺陷，不在视界内，并且没有设置 showInfoWindow() 的时候，Animation 就不会执行。
+2. Marker Animation 的缺陷，不在视界内，并且没有设置 showInfoWindow() 的时候（此时 Marker 已经被移除了），Animation 就不会执行。
 3. 无法停止 Marker 的 Animation。
 
+## 再次补充
+高德地图的论坛太不给力了，如果不是公司要求，我宁愿用百度地图，都散了吧。
 
