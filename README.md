@@ -39,6 +39,6 @@ public class BusMoveMgr extends AbsMoveMgr<Bus> {
 
 ## 补充
 1. Marker Animation 如果带有 InfoWindow，InfoWindow 的移动会有延迟。（4.1.3 已修正）
-1. Marker Animation 的缺陷，不在视界内，并且没有设置 showInfoWindow() 的时候，Animation 就不会执行。
-1. 无法停止 Marker 的 Animation。
+2. Marker Animation 的缺陷，不在视界内，并且没有设置 showInfoWindow() 的时候，Animation 就不会执行。
+3. 无法停止 Marker 的 Animation。
 
