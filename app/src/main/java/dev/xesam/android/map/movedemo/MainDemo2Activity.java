@@ -91,5 +91,8 @@ public class MainDemo2Activity extends BaseMapActivity {
         if (mBusSource != null) {
             mBusSource.stop();
         }
+        if (mMarkerMgr != null) {
+            mMarkerMgr.stop();
+        }
     }
 }
