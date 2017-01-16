@@ -55,7 +55,7 @@ public class MainDemo2Activity extends BaseMapActivity {
                 .add(new LatLng(39.91126, 116.401518))
                 .add(new LatLng(39.910803, 116.401185))
                 .add(new LatLng(39.912013, 116.401131))
-                .width(10)
+                .width(5)
                 .color(Color.RED);
         mAMap.addPolyline(polylineOptions);
 
