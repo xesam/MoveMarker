@@ -38,6 +38,14 @@ public class MoveMarker<D> {
         return vMarker;
     }
 
+    /**
+     * 不执行动画，直接去往某个地方
+     */
+    public void directTo(LatLng end) {
+        stopMove();
+        vMarker.setPosition(end);
+    }
+
     public D getData() {
         return mData;
     }
@@ -49,7 +57,7 @@ public class MoveMarker<D> {
     /**
      * 设置目标点，不包括当前 Marker 所在点
      */
-    public void setTargetPoints(List<LatLng> points) {
+    public void setMovePoints(List<LatLng> points) {
         stopMove();
         LatLng current = vMarker.getPosition();
         points.add(0, current);
