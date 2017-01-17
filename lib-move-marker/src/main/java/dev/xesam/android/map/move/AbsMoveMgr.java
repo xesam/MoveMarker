@@ -84,12 +84,12 @@ public abstract class AbsMoveMgr<D> {
         for (D item : items) {
             MoveMarker<D> moveMarker = mMoveMarkers.get(getKey(item));
             moveMarker.stopMove();
+            onMarkerUpdated(moveMarker, moveMarker.getData(), item, performAnimation);
             moveMarker.setData(item);
-            onMarkerUpdated(moveMarker, item, performAnimation);
         }
     }
 
-    protected abstract void onMarkerUpdated(MoveMarker<D> moveMarker, D updated, boolean performAnimation);
+    protected abstract void onMarkerUpdated(MoveMarker<D> moveMarker, D old, D updated, boolean performAnimation);
 
     /**
      * 丢失 marker

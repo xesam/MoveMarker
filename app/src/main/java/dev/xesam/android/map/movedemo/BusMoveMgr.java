@@ -41,7 +41,7 @@ public class BusMoveMgr extends AbsMoveMgr<Bus> {
     }
 
     @Override
-    protected void onMarkerUpdated(MoveMarker<Bus> moveMarker, Bus updated, boolean performAnimation) {
+    protected void onMarkerUpdated(MoveMarker<Bus> moveMarker, Bus old, Bus updated, boolean performAnimation) {
         LatLng endLatLng = new LatLng(updated.lat, updated.lng);
         if (performAnimation) {
             List<LatLng> points = new ArrayList<>();
