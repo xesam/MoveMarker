@@ -44,20 +44,11 @@ public class MapSdkAnim extends MoveAnim {
 
         mAnimation = new TranslateAnimation(mEnd);
         mAnimation.setInterpolator(new LinearInterpolator());
-        mAnimation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart() {
-                if (mOnMoveAnimListener != null) {
-                    mOnMoveAnimListener.onAnimStart();
-                }
-            }
-
-            @Override
-            public void onAnimationEnd() {
-            }
-        });
         mAnimation.setDuration(duration);
         vMarker.setAnimation(mAnimation);
+        if (mOnMoveAnimListener != null) {
+            mOnMoveAnimListener.onAnimStart();
+        }
         vMarker.startAnimation();
     }
 
