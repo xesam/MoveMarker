@@ -78,7 +78,6 @@ public class MoveMarker<D> {
     private void startMoveSpan(final MovePath movePath, final int index) {
         final MoveSpan moveSpan = movePath.getSpan(index);
         if (moveSpan == null) {
-            mRunningIndex = SPAN_NOT_START;
             mRunning = false;
             return;
         }
