@@ -87,11 +87,13 @@ public class BusMoveMgr extends AbsMoveMgr<Bus> {
 2. Marker Animation 的缺陷，不在视界内，并且没有设置 showInfoWindow() 的时候（此时 Marker 已经被移除了），Animation 就不会执行。
 3. 无法停止 Marker 的 Animation。
 
-不过高德方面回复会在新版本解决这些问题，暂用解决办法：
+不过高德方面回复会在新版本解决这些问题，暂用解决办法（在 Marker 不可见的时候，已然有bug）：
 
 1. sdk 4.1.3 已修正。
 2. 不要相信 AnimationListener#onAnimationEnd 回调，使用一个与动画时长相等的 delay message 来修正最终的位置。
-3. 想停止动画的时候，发起一个时间非常短（比如 10 ms）的动画来冲掉正在执行的动画，效果还可以。
+3. 想停止动画的时候，发起一个时间非常短（比如 10 ms）的动画来冲掉正在执行的动画。
+
+或者完全不要使用 SDK 提供的各种 Animation， 使用 Android 自身的动画机制，不过需要对轨迹作平滑处理。
 
 ## 再次补充
 高德地图的论坛太不给力了，有问题还是 Github 去提 issues 吧。
