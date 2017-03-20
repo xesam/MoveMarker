@@ -48,8 +48,7 @@ public class BusMoveMgr extends AbsMoveMgr<Bus> {
             LatLng c = moveMarker.getMarker().getPosition();
             points.add(new LatLng((c.latitude + updated.lat) / 2, (c.longitude + updated.lng) / 2));
             points.add(endLatLng);
-            moveMarker.setTotalDuration(5_000);
-            moveMarker.setMovePoints(points);
+            moveMarker.setMovePoints(points, 5_000);
             moveMarker.startMove();
         } else {
             moveMarker.directTo(endLatLng);

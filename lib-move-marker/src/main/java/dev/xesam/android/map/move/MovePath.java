@@ -14,12 +14,10 @@ import java.util.List;
  */
 
 public class MovePath {
-    private List<MoveSpan> mMoveSpen;
-    private final long mTotalDuration;
+    private List<MoveSpan> mMoveSpan;//所有运行路径
 
     public MovePath(List<LatLng> points, long duration) {
-        mMoveSpen = new ArrayList<>();
-        mTotalDuration = duration;
+        mMoveSpan = new ArrayList<>();
         float totalDistance = 0f;
         for (int i = 1; i < points.size(); i++) {
             LatLng start = points.get(i - 1);
@@ -30,15 +28,15 @@ public class MovePath {
             moveSpan.distance = spanDistance;
             moveSpan.end = end;
             moveSpan.rotate = getRotate(start, end);
-            mMoveSpen.add(moveSpan);
+            mMoveSpan.add(moveSpan);
         }
         long assignedDuration = 0;
-        for (int i = 0, size = mMoveSpen.size(); i < size; i++) {
-            MoveSpan moveSpan = mMoveSpen.get(i);
+        for (int i = 0, size = mMoveSpan.size(); i < size; i++) {
+            MoveSpan moveSpan = mMoveSpan.get(i);
             if (i == size - 1) {
-                moveSpan.duration = mTotalDuration - assignedDuration;
+                moveSpan.duration = duration - assignedDuration;
             } else {
-                long spanDuration = (long) (mTotalDuration * (moveSpan.distance / totalDistance));
+                long spanDuration = (long) (duration * (moveSpan.distance / totalDistance));
                 assignedDuration += spanDuration;
                 moveSpan.duration = spanDuration;
             }
@@ -54,7 +52,7 @@ public class MovePath {
     }
 
     public int getSpanCount() {
-        return mMoveSpen.size();
+        return mMoveSpan.size();
     }
 
     @Nullable
@@ -62,6 +60,6 @@ public class MovePath {
         if (index >= getSpanCount()) {
             return null;
         }
-        return mMoveSpen.get(index);
+        return mMoveSpan.get(index);
     }
 }

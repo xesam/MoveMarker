@@ -21,7 +21,6 @@ public class MoveMarker<D> {
     private MovePath mMovePath;
     private static final int SPAN_NOT_START = 0;
     private int mRunningIndex = SPAN_NOT_START;
-    private long mTotalDuration;
     private boolean mRunning = false;
 
     public MoveMarker(AMap map, Marker marker) {
@@ -57,11 +56,11 @@ public class MoveMarker<D> {
     /**
      * 设置目标点，不包括当前 Marker 所在点
      */
-    public void setMovePoints(List<LatLng> points) {
+    public void setMovePoints(List<LatLng> points, long duration) {
         stopMove();
         LatLng current = vMarker.getPosition();
         points.add(0, current);
-        mMovePath = new MovePath(points, mTotalDuration);
+        mMovePath = new MovePath(points, duration);
         mRunningIndex = SPAN_NOT_START;
     }
 
@@ -94,13 +93,6 @@ public class MoveMarker<D> {
             }
         });
         mMoveAnim.start(moveSpan.duration);
-    }
-
-    /**
-     * 设置运动总时间
-     */
-    public void setTotalDuration(long duration) {
-        mTotalDuration = duration;
     }
 
     /**
