@@ -2,6 +2,8 @@
 
 高德地图 Marker 按照轨迹移动
 
+sdk 5.0.0 版本参见 branch map-5.0.0
+
 ## todo
 
 - [ ] Android 动画轨迹平滑处理
@@ -94,8 +96,8 @@ public class BusMoveMgr extends AbsMoveMgr<Bus> {
 
 不过高德方面回复会在新版本解决这些问题，暂用解决办法（在 Marker 不可见的时候，已然有bug）：
 
-1. sdk 4.1.3 已修正。
-2. 不要相信 AnimationListener#onAnimationEnd 回调，使用一个与动画时长相等的 delay message 来修正最终的位置。
+1. (sdk 4.1.3 已修正)。
+2. 不要相信 AnimationListener#onAnimationEnd 回调，使用一个与动画时长相等的 delay message 来修正最终的位置。(sdk 5.0.0 已修正)
 3. 想停止动画的时候，发起一个时间非常短（比如 10 ms）的动画来冲掉正在执行的动画。
 
 或者完全不要使用 SDK 提供的各种 Animation， 使用 Android 自身的动画机制，不过需要对轨迹作平滑处理。
