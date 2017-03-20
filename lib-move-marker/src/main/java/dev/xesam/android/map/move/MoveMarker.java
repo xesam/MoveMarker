@@ -7,7 +7,7 @@ import com.amap.api.maps.model.Marker;
 import java.util.List;
 
 /**
- * Android SDk Animation
+ * MoveMarker
  * Created by xe on 16-12-13.
  */
 

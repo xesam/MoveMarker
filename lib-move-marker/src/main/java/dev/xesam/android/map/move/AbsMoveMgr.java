@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * Marker update Manager
  * Created by xe on 16-12-13.
  */
 
