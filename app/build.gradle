@@ -41,4 +41,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.0'
     testCompile 'junit:junit:4.12'
     compile project(':lib-move-marker')
+    compile files('libs/Android_Map3D_SDK_V5.0.0_20170311.jar')
 }
