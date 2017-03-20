@@ -1,6 +1,7 @@
 package dev.xesam.android.map.move;
 
 import android.animation.Animator;
+import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.view.animation.LinearInterpolator;
 
@@ -77,6 +78,22 @@ public class AndroidSdkAnim extends MoveAnim {
     void stop() {
         if (mAnimation != null) {
             mAnimation.cancel();
+        }
+    }
+
+    /**
+     * Created by xesamguo@gmail.com on 16-12-23.
+     */
+
+    public static class MoveEvaluator implements TypeEvaluator<LatLng> {
+        @Override
+        public LatLng evaluate(float fraction, LatLng startValue, LatLng endValue) {
+
+            final float latDelta = (float) (endValue.latitude - startValue.latitude);
+            final float lngDelta = (float) (endValue.longitude - startValue.longitude);
+            float lat = latDelta * fraction;
+            float lng = lngDelta * fraction;
+            return new LatLng(startValue.latitude + lat, startValue.longitude + lng);
         }
     }
 }
